@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-warm: var(--surface-warm);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-teal: var(--teal);
+  --color-teal-foreground: var(--teal-foreground);
+  --color-warm: var(--warm);
+  --color-warm-foreground: var(--warm-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --shadow-soft:
+    0 1px 2px rgba(15, 31, 60, 0.04), 0 8px 24px -12px rgba(15, 31, 60, 0.08);
+  --shadow-card:
+    0 1px 2px rgba(15, 31, 60, 0.05), 0 12px 32px -16px rgba(15, 31, 60, 0.12);
+  --shadow-lift:
+    0 2px 4px rgba(15, 31, 60, 0.06), 0 24px 48px -20px rgba(15, 31, 60, 0.18);
+}
+
+:root {
+  --radius: 0.875rem;
+
+  --background: oklch(0.985 0.005 85);
+  --foreground: oklch(0.22 0.04 250);
+
+  --surface: oklch(0.995 0.003 85);
+  --surface-warm: oklch(0.965 0.012 75);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.04 250);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.04 250);
+
+  --primary: oklch(0.26 0.06 255);
+  --primary-foreground: oklch(0.985 0.005 85);
+
+  --secondary: oklch(0.55 0.09 245);
+  --secondary-foreground: oklch(0.985 0.005 85);
+
+  --muted: oklch(0.955 0.008 250);
+  --muted-foreground: oklch(0.48 0.025 250);
+
+  --accent: oklch(0.93 0.025 235);
+  --accent-foreground: oklch(0.26 0.06 255);
+
+  --teal: oklch(0.62 0.07 195);
+  --teal-foreground: oklch(0.99 0.005 195);
+
+  --warm: oklch(0.78 0.05 60);
+  --warm-foreground: oklch(0.28 0.04 50);
+
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.91 0.01 250);
+  --input: oklch(0.91 0.01 250);
+  --ring: oklch(0.55 0.09 245);
+}
+
+@layer base {
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap");
+
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .bg-grid-soft {
+    background-image:
+      linear-gradient(
+        to right,
+        color-mix(in oklab, var(--primary) 6%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--primary) 6%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 56px 56px;
+  }
+  .bg-radial-warm {
+    background:
+      radial-gradient(
+        60% 60% at 80% 0%,
+        color-mix(in oklab, var(--warm) 35%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        50% 60% at 0% 20%,
+        color-mix(in oklab, var(--teal) 22%, transparent),
+        transparent 60%
+      ),
+      var(--surface);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
