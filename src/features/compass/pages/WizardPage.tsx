@@ -248,6 +248,9 @@ const C = {
   muted: "#94a3b8",
 };
 
+// Consistent max-width for ALL step content
+const CONTENT_MAX_WIDTH = "1100px";
+
 // ─────────────────────────────────────────────────────────────────────────────
 // SHARED FIELD COMPONENTS
 // ─────────────────────────────────────────────────────────────────────────────
@@ -520,12 +523,12 @@ function Divider() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// STEP CONTENT
+// STEP CONTENT — all use CONTENT_MAX_WIDTH and margin: "0 auto"
 // ─────────────────────────────────────────────────────────────────────────────
 function StepWelcome() {
   const [prefill, setPrefill] = useState("prior");
   return (
-    <div style={{ maxWidth: "680px" }}>
+    <div style={{ maxWidth: CONTENT_MAX_WIDTH, margin: "0 auto" }}>
       <div
         style={{
           background: `linear-gradient(135deg, ${C.navy} 0%, #1e3a5f 100%)`,
@@ -723,189 +726,200 @@ function StepProducts() {
   const cats = [...new Set(products.map((p) => p.cat))];
 
   return (
-    <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-      <div style={{ flex: "1 1 480px" }}>
-        {cats.map((cat) => (
-          <div key={cat} style={{ marginBottom: "18px" }}>
-            <div
-              style={{
-                fontSize: "11px",
-                fontWeight: 700,
-                color: C.muted,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                marginBottom: "10px",
-              }}
-            >
-              {cat} Services
-            </div>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-                gap: "8px",
-              }}
-            >
-              {products
-                .filter((p) => p.cat === cat)
-                .map((prod) => (
-                  <div
-                    key={prod.id}
-                    onClick={() => toggle(prod.id)}
-                    style={{
-                      border: `1px solid ${prod.checked ? C.teal : C.border}`,
-                      borderRadius: "8px",
-                      padding: "12px 14px",
-                      cursor: "pointer",
-                      background: prod.checked ? C.tealLt : "white",
-                      transition: "all 0.15s",
-                    }}
-                  >
+    <div style={{ maxWidth: CONTENT_MAX_WIDTH, margin: "0 auto" }}>
+      <div style={{ display: "flex", gap: "20px", alignItems: "flex-start" }}>
+        {/* Left: product list */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {cats.map((cat) => (
+            <div key={cat} style={{ marginBottom: "18px" }}>
+              <div
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  color: C.muted,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  marginBottom: "10px",
+                }}
+              >
+                {cat} Services
+              </div>
+              {/* 2-column grid */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "8px",
+                }}
+              >
+                {products
+                  .filter((p) => p.cat === cat)
+                  .map((prod) => (
                     <div
+                      key={prod.id}
+                      onClick={() => toggle(prod.id)}
                       style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "flex-start",
+                        border: `1px solid ${prod.checked ? C.teal : C.border}`,
+                        borderRadius: "8px",
+                        padding: "12px 14px",
+                        cursor: "pointer",
+                        background: prod.checked ? C.tealLt : "white",
+                        transition: "all 0.15s",
                       }}
                     >
-                      <span
-                        style={{
-                          fontSize: "13px",
-                          fontWeight: 600,
-                          color: prod.checked ? C.tealDk : C.text,
-                        }}
-                      >
-                        {prod.name}
-                      </span>
                       <div
                         style={{
-                          width: "18px",
-                          height: "18px",
-                          borderRadius: "4px",
-                          flexShrink: 0,
-                          border: `2px solid ${prod.checked ? C.teal : C.border}`,
-                          background: prod.checked ? C.teal : "white",
                           display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          justifyContent: "space-between",
+                          alignItems: "flex-start",
                         }}
                       >
-                        {prod.checked && (
-                          <Check size={11} color="white" strokeWidth={3} />
-                        )}
+                        <span
+                          style={{
+                            fontSize: "13px",
+                            fontWeight: 600,
+                            color: prod.checked ? C.tealDk : C.text,
+                          }}
+                        >
+                          {prod.name}
+                        </span>
+                        <div
+                          style={{
+                            width: "18px",
+                            height: "18px",
+                            borderRadius: "4px",
+                            flexShrink: 0,
+                            border: `2px solid ${prod.checked ? C.teal : C.border}`,
+                            background: prod.checked ? C.teal : "white",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {prod.checked && (
+                            <Check size={11} color="white" strokeWidth={3} />
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "11px",
-                        color: C.grey,
-                        marginTop: "3px",
-                      }}
-                    >
-                      {prod.desc}
-                    </div>
-                    {prod.price > 0 ? (
-                      <div
-                        style={{
-                          fontSize: "12px",
-                          fontWeight: 700,
-                          color: C.teal,
-                          marginTop: "6px",
-                        }}
-                      >
-                        ${prod.price}/yr
-                      </div>
-                    ) : (
                       <div
                         style={{
                           fontSize: "11px",
-                          color: C.green,
-                          fontWeight: 600,
-                          marginTop: "6px",
+                          color: C.grey,
+                          marginTop: "3px",
                         }}
                       >
-                        Partner — custom pricing
+                        {prod.desc}
                       </div>
-                    )}
-                  </div>
-                ))}
+                      {prod.price > 0 ? (
+                        <div
+                          style={{
+                            fontSize: "12px",
+                            fontWeight: 700,
+                            color: C.teal,
+                            marginTop: "6px",
+                          }}
+                        >
+                          ${prod.price}/yr
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            fontSize: "11px",
+                            color: C.green,
+                            fontWeight: 600,
+                            marginTop: "6px",
+                          }}
+                        >
+                          Partner — custom pricing
+                        </div>
+                      )}
+                    </div>
+                  ))}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <div style={{ width: "240px", flexShrink: 0 }}>
-        <div style={{ position: "sticky", top: 0 }}>
-          <div
-            style={{
-              background: "white",
-              border: `1px solid ${C.border}`,
-              borderRadius: "10px",
-              padding: "16px",
-              marginBottom: "12px",
-            }}
-          >
+        {/* Right: cost summary — sticky */}
+        <div style={{ width: "220px", flexShrink: 0 }}>
+          <div style={{ position: "sticky", top: 0 }}>
             <div
               style={{
-                fontSize: "11px",
-                fontWeight: 700,
-                color: C.muted,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
+                background: "white",
+                border: `1px solid ${C.border}`,
+                borderRadius: "10px",
+                padding: "16px",
                 marginBottom: "12px",
               }}
             >
-              Cost Estimate
-            </div>
-            {products
-              .filter((p) => p.checked && p.price > 0)
-              .map((p) => (
-                <div
-                  key={p.id}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: "6px",
-                  }}
-                >
-                  <span style={{ fontSize: "11px", color: C.grey }}>
-                    {p.name}
-                  </span>
-                  <span
-                    style={{ fontSize: "11px", fontWeight: 600, color: C.text }}
+              <div
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  color: C.muted,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  marginBottom: "12px",
+                }}
+              >
+                Cost Estimate
+              </div>
+              {products
+                .filter((p) => p.checked && p.price > 0)
+                .map((p) => (
+                  <div
+                    key={p.id}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "6px",
+                    }}
                   >
-                    ${p.price}
-                  </span>
-                </div>
-              ))}
-            <Divider />
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span
-                style={{ fontSize: "13px", fontWeight: 700, color: C.text }}
+                    <span style={{ fontSize: "11px", color: C.grey }}>
+                      {p.name}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "11px",
+                        fontWeight: 600,
+                        color: C.text,
+                      }}
+                    >
+                      ${p.price}
+                    </span>
+                  </div>
+                ))}
+              <Divider />
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <span
+                  style={{ fontSize: "13px", fontWeight: 700, color: C.text }}
+                >
+                  Annual Total
+                </span>
+                <span
+                  style={{ fontSize: "15px", fontWeight: 700, color: C.teal }}
+                >
+                  ${total.toLocaleString()}
+                </span>
+              </div>
+              <div
+                style={{ fontSize: "11px", color: C.muted, marginTop: "4px" }}
               >
-                Annual Total
-              </span>
-              <span
-                style={{ fontSize: "15px", fontWeight: 700, color: C.teal }}
-              >
-                ${total.toLocaleString()}
-              </span>
+                or ${Math.round((total / 12) * 1.05).toLocaleString()}/mo (+5%)
+              </div>
             </div>
-            <div style={{ fontSize: "11px", color: C.muted, marginTop: "4px" }}>
-              or ${Math.round((total / 12) * 1.05).toLocaleString()}/mo (+5%)
-            </div>
-          </div>
-          <div
-            style={{
-              background: C.tealLt,
-              border: "1px solid #a5f3fc",
-              borderRadius: "8px",
-              padding: "10px 12px",
-            }}
-          >
-            <div style={{ fontSize: "11px", color: C.tealDk }}>
-              <strong>{products.filter((p) => p.checked).length}</strong>{" "}
-              services selected. Final pricing confirmed after submission.
+            <div
+              style={{
+                background: C.tealLt,
+                border: "1px solid #a5f3fc",
+                borderRadius: "8px",
+                padding: "10px 12px",
+              }}
+            >
+              <div style={{ fontSize: "11px", color: C.tealDk }}>
+                <strong>{products.filter((p) => p.checked).length}</strong>{" "}
+                services selected. Final pricing confirmed after submission.
+              </div>
             </div>
           </div>
         </div>
@@ -916,12 +930,12 @@ function StepProducts() {
 
 function StepBasicInfo() {
   return (
-    <div style={{ maxWidth: "720px" }}>
+    <div style={{ maxWidth: CONTENT_MAX_WIDTH, margin: "0 auto" }}>
       <SectionCard title="Company Information">
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gridTemplateColumns: "1fr 1fr",
             gap: "16px",
           }}
         >
@@ -1009,7 +1023,7 @@ function StepBasicInfo() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gridTemplateColumns: "1fr 1fr",
             gap: "16px",
           }}
         >
@@ -1033,7 +1047,7 @@ function StepBasicInfo() {
 
 function StepCore() {
   return (
-    <div style={{ maxWidth: "720px" }}>
+    <div style={{ maxWidth: CONTENT_MAX_WIDTH, margin: "0 auto" }}>
       <SectionCard
         title="Company Information"
         action="Duplicate to Subsidiaries"
@@ -1228,7 +1242,7 @@ function StepBenefitPlans() {
   const cats = [...new Set(plans.map((p) => p.category))];
 
   return (
-    <div style={{ maxWidth: "720px" }}>
+    <div style={{ maxWidth: CONTENT_MAX_WIDTH, margin: "0 auto" }}>
       <div
         style={{
           display: "flex",
@@ -1267,7 +1281,7 @@ function StepBenefitPlans() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gridTemplateColumns: "1fr 1fr",
               gap: "10px",
             }}
           >
@@ -1384,12 +1398,12 @@ function StepBenefitPlans() {
 function StepUploader() {
   const [docs, setDocs] = useState(DOCS);
   return (
-    <div style={{ maxWidth: "680px" }}>
+    <div style={{ maxWidth: CONTENT_MAX_WIDTH, margin: "0 auto" }}>
       <SectionCard title="Document Upload">
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gridTemplateColumns: "1fr 1fr",
             gap: "12px",
             marginBottom: "14px",
           }}
@@ -1613,12 +1627,13 @@ function StepBilling() {
   const grand = subtotal + setup + catchup;
 
   return (
-    <div style={{ maxWidth: "900px" }}>
+    <div style={{ maxWidth: CONTENT_MAX_WIDTH, margin: "0 auto" }}>
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gridTemplateColumns: "1fr 280px",
           gap: "16px",
+          alignItems: "flex-start",
         }}
       >
         <div style={{ minWidth: 0 }}>
@@ -1685,15 +1700,13 @@ function StepBilling() {
           </SectionCard>
         </div>
 
-        <div>
+        <div style={{ position: "sticky", top: 0 }}>
           <div
             style={{
               background: "white",
               border: `1px solid ${C.border}`,
               borderRadius: "10px",
               padding: "18px",
-              position: "sticky",
-              top: 0,
             }}
           >
             <div
@@ -1790,7 +1803,7 @@ function StepBilling() {
 function StepApproval() {
   const [agreed, setAgreed] = useState(false);
   return (
-    <div style={{ maxWidth: "680px" }}>
+    <div style={{ maxWidth: CONTENT_MAX_WIDTH, margin: "0 auto" }}>
       <SectionCard title="Legal Agreement">
         <div
           style={{
@@ -1897,7 +1910,7 @@ function StepApproval() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gridTemplateColumns: "1fr 1fr",
             gap: "14px",
           }}
         >
@@ -1995,7 +2008,7 @@ function StepApproval() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// STEPPER
+// STEPPER — centered
 // ─────────────────────────────────────────────────────────────────────────────
 function Stepper({
   current,
@@ -2009,11 +2022,21 @@ function Stepper({
       style={{
         background: "white",
         borderBottom: `1px solid ${C.border}`,
-        padding: "0 28px",
         overflowX: "auto",
+        display: "flex",
+        justifyContent: "center",
       }}
     >
-      <div style={{ display: "flex", minWidth: "max-content" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+          maxWidth: CONTENT_MAX_WIDTH,
+          padding: "0 28px",
+          boxSizing: "border-box",
+        }}
+      >
         {STEPS.map((step, i) => {
           const status = STEP_STATUS[step.id];
           const isCurrent = i === current;
@@ -2131,7 +2154,6 @@ export function WizardPage() {
 
   return (
     <>
-      {" "}
       <header
         style={{
           height: "52px",
@@ -2213,11 +2235,12 @@ export function WizardPage() {
           </button>
         </div>
       </header>
+
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          minHeight: "100vh",
+          height: "calc(100vh - 52px)",
           fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
           background: "#f8fafc",
           color: C.text,
@@ -2225,15 +2248,10 @@ export function WizardPage() {
       >
         <Stepper current={current} onStep={setCurrent} />
 
-        <div
-          style={{
-            flex: 1,
-            overflowY: "auto",
-            padding: "28px",
-            width: "100%",
-          }}
-        >
-          <div style={{ marginBottom: "20px" }}>
+        {/* Scrollable content area */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "28px 28px 0" }}>
+          {/* Step header — same max-width as content, centered */}
+          <div style={{ maxWidth: CONTENT_MAX_WIDTH, margin: "0 auto 20px" }}>
             <div
               style={{
                 display: "flex",
@@ -2284,7 +2302,8 @@ export function WizardPage() {
             </p>
           </div>
 
-          {stepContent[current]}
+          {/* Step body — each step self-centers with margin: "0 auto" */}
+          <div style={{ paddingBottom: "28px" }}>{stepContent[current]}</div>
         </div>
 
         <footer
